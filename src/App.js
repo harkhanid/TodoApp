@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from "./component/Header";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useState } from "react";
+import Footer from "./component/footer";
+import Form from "./component/Form";
+import { About } from "./component/About";
+import TasksProvider from "./component/TasksContext";
 
-function App() {
+const App = () => {
+  const [showAddTask, setShowAddTask] = new useState(false);
+  const toggleForm = () => {
+    setShowAddTask((prev) => !prev);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <TasksProvider>
+        <div className="container">
+          <Header onClick={toggleForm} />
+          <Routes>
+            <Route
+              path="/"
+              exact
+              element={<Form showAddTask={showAddTask} />}
+            />
+            <Route path="/about" element={<About />} />
+          </Routes>
+          <Footer />
+        </div>
+      </TasksProvider>
+    </Router>
   );
-}
+};
 
 export default App;
